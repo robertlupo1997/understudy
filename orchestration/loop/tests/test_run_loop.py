@@ -205,6 +205,13 @@ def test_idle_loop_promotes_then_processes_backlog_task(temp_repo, tmp_path, mon
     assert run_loop._tick(c, worker_fn=fake_worker) == 30   # beat 3: dry → sleep
 
 
+from orchestration.loop import run_loop as _rl
+
+def test_resolve_config_path_defaults_and_override():
+    assert _rl.resolve_config_path([]) == _rl._DEFAULT_CONFIG
+    assert _rl.resolve_config_path(["--config", "/tmp/x.yaml"]) == "/tmp/x.yaml"
+
+
 def test_terminal_set_status_failure_does_not_overwrite_full_record(temp_repo, tmp_path, monkeypatch):
     # M1 guard: if the terminal set_status raises AFTER write_record landed a full
     # record, the error-record fallback must not overwrite it.

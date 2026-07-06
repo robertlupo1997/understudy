@@ -2,6 +2,7 @@
 worktree add off base -> worker -> commit on branch -> capture diff -> sandboxed
 gate -> inbox record -> mark task status -> remove worktree (branch persists).
 Nothing merges automatically (propose-only)."""
+import argparse
 import os
 import shutil
 import subprocess
@@ -18,6 +19,13 @@ from orchestration.loop import worker_adapter
 
 STATUS_MAP = {"passed": "done", "failed": "failed", "needs_human": "needs_human"}
 _DEFAULT_CONFIG = os.path.join(os.path.dirname(__file__), "config.yaml")
+
+
+def resolve_config_path(argv):
+    ap = argparse.ArgumentParser(prog="run_loop")
+    ap.add_argument("--config", default=_DEFAULT_CONFIG,
+                    help="path to the loop config YAML (default: bundled config.yaml)")
+    return ap.parse_args(argv).config
 
 
 def _git(repo, *args):
@@ -116,8 +124,9 @@ def _tick(config, worker_fn=None):
     return 30                                   # queue and backlog both dry
 
 
-def main():
-    config = _config.load_config(_DEFAULT_CONFIG)
+def main(argv=None):
+    import sys
+    config = _config.load_config(resolve_config_path(sys.argv[1:] if argv is None else argv))
     if config.max_parallel != 1:
         print(f"[run_loop] warning: max_parallel={config.max_parallel} "
               f"not supported in v1; running serially")
