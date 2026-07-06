@@ -1,0 +1,11 @@
+models/
+*.gguf
+__pycache__/
+*.pyc
+graphify-out/
+# runtime dirs (the daemon writes here; ship examples/ instead)
+orchestration/loop/queue/
+orchestration/loop/inbox/
+orchestration/loop/backlog/
+.understudy/
+config.yaml
