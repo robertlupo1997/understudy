@@ -1,9 +1,9 @@
-target_repo: /home/tlupo/experiments/Ornith     # first target = this repo (config-driven)
+target_repo: /path/to/your/repo                  # first target repo (config-driven)
 dirs:
   queue:      orchestration/loop/queue           # relative paths resolve against target_repo (config.py repo_path)
   inbox:      orchestration/loop/inbox           # must stay in sync with the .gitignore entries
   backlog:    orchestration/loop/backlog        # pre-authored Option-C specs; promoted when queue is idle
-  worktrees:  ~/.ornith-loop/worktrees
+  worktrees:  ~/.understudy/worktrees
 endpoint: http://localhost:11434/v1
 models:
   simple:  ornith9b

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Verify a local Ornith endpoint is alive AND that tool-calling parses correctly.
+# Verify a local model endpoint is alive AND that tool-calling parses correctly.
 # A passing chat test but failing tool test means the chat template / parser is wrong —
 # every agent harness then fails silently. See docs/serving.md.
 #
@@ -8,9 +8,10 @@
 #         BASE=http://localhost:8000/v1 MODEL=ornith9b ./smoke-test.sh
 set -uo pipefail
 BASE="${BASE:-http://localhost:11434/v1}"
+# reference model; override with MODEL=<your-ollama-tag>
 MODEL="${MODEL:-ornith9b}"
-# max_tokens kept high on purpose: Ornith emits a <think> block first; too small a budget
-# yields EMPTY content with a benign finish_reason (verified gotcha). See community-findings.md.
+# max_tokens kept high on purpose: the reference model emits a <think> block first; too small a
+# budget yields EMPTY content with a benign finish_reason (verified gotcha). See community-findings.md.
 
 echo "== endpoint: $BASE  model: $MODEL =="
 

@@ -5,8 +5,8 @@
 # Prereq: llama.cpp built with CUDA (see docs/serving.md). `llama-server` on PATH,
 # or set LLAMA_SERVER to its full path.
 #
-# Usage:  ./serve-ornith-9b.sh            # defaults: Q4_K_M, 16K ctx, port 8000
-#         PORT=8001 CTX=8192 ./serve-ornith-9b.sh
+# Usage:  ./serve-9b.sh                   # defaults: Q4_K_M, 16K ctx, port 8000
+#         PORT=8001 CTX=8192 ./serve-9b.sh
 set -euo pipefail
 
 LLAMA_SERVER="${LLAMA_SERVER:-llama-server}"

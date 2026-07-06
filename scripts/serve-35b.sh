@@ -8,8 +8,8 @@
 #
 # Prereq: llama.cpp built with CUDA. NOTE: Ollama CANNOT do this (no --n-cpu-moe). Use llama.cpp.
 #
-# Usage:  ./serve-ornith-35b.sh           # defaults: Q4_K_M, 32K ctx, port 8000
-#         PORT=8002 CTX=65536 ./serve-ornith-35b.sh
+# Usage:  ./serve-35b.sh                  # defaults: Q4_K_M, 32K ctx, port 8000
+#         PORT=8002 CTX=65536 ./serve-35b.sh
 set -euo pipefail
 
 LLAMA_SERVER="${LLAMA_SERVER:-llama-server}"

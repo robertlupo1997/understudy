@@ -21,8 +21,8 @@ def _ollama_up(endpoint):
 
 
 run_e2e = pytest.mark.skipif(
-    os.environ.get("ORNITH_E2E") != "1" or shutil.which("bwrap") is None,
-    reason="set ORNITH_E2E=1 and install bwrap to run the live end-to-end test")
+    os.environ.get("UNDERSTUDY_E2E") != "1" or shutil.which("bwrap") is None,
+    reason="set UNDERSTUDY_E2E=1 and install bwrap to run the live end-to-end test")
 
 
 @run_e2e

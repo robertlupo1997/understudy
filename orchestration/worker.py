@@ -2,9 +2,9 @@
 """
 worker.py — a minimal LOCAL implementation worker (reference model: Ornith-1.0).
 
-This is the "hands" in the Claude-orchestrator / Ornith-worker loop (see docs/architecture.md).
+This is the "hands" in the Claude-orchestrator / local-worker loop (see docs/architecture.md).
 Claude (the orchestrator) hands this script ONE scoped task + a target file. It asks the local
-Ornith model to write the whole file, extracts the code, writes it to disk, and prints ONLY a
+model to write the whole file, extracts the code, writes it to disk, and prints ONLY a
 short summary to stdout. The model's verbose reasoning/output never goes back to Claude — that
 is the token-savings contract that preserves Claude's context.
 

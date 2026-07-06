@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# End-to-end integration test of the Claude -> Ornith delegation loop.
+# End-to-end integration test of the Claude -> local-worker delegation loop.
 # Proves all four layers in one command:
 #   1. server reachable   2. chat + tool-calling parse   3. worker delegates a real task
 #   4. the delegated code passes an objective acceptance test
@@ -19,7 +19,7 @@ echo; echo "[1/4] server reachable…"
 if curl -fsS "${BASE%/v1}/v1/models" >/dev/null 2>&1 || curl -fsS "${BASE%/v1}/api/version" >/dev/null 2>&1; then
   echo "  ✅ up"
 else
-  echo "  ❌ server not reachable at $BASE — start it (scripts/serve-ornith-9b.sh or ollama serve)"; exit 1
+  echo "  ❌ server not reachable at $BASE — start it (scripts/serve-9b.sh or ollama serve)"; exit 1
 fi
 
 echo; echo "[2/4] chat + tool-calling…"
@@ -46,5 +46,5 @@ except Exception as e:
 PY
 then :; else rc=1; fi
 
-echo; if [ "$rc" -eq 0 ]; then echo "### RESULT: PASS ✅  the Claude->Ornith loop works end-to-end"; else echo "### RESULT: FAIL ❌  (see above)"; fi
+echo; if [ "$rc" -eq 0 ]; then echo "### RESULT: PASS ✅  the Claude->worker loop works end-to-end"; else echo "### RESULT: FAIL ❌  (see above)"; fi
 exit "$rc"
