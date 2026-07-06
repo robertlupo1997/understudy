@@ -15,7 +15,7 @@ SANDBOX = (
     # Mount order matters: every --tmpfs must precede the --ro-bind {worktree}
     # rebind, or a worktree under /tmp (tmp_path) or $HOME gets shadowed. Do not reorder.
     "bwrap --ro-bind / / --tmpfs {home} --tmpfs /tmp "
-    "--ro-bind {home}/.local/lib {home}/.local/lib --ro-bind {worktree} {worktree} "
+    "--ro-bind-try {home}/.local/lib {home}/.local/lib --ro-bind {worktree} {worktree} "
     "--dev /dev --proc /proc --unshare-all --die-with-parent "
     "--setenv PYTHONDONTWRITEBYTECODE 1 "
     "--setenv PYTEST_ADDOPTS '-p no:cacheprovider' --chdir {worktree}"

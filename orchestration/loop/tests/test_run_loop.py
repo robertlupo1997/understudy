@@ -38,7 +38,8 @@ def test_process_task_lands_gated_diff_and_never_touches_base(temp_repo, tmp_pat
     (temp_repo / "test_add.py").write_text(
         "from add import add\n\ndef test_add():\n    assert add(2, 3) == 5\n")
     subprocess.run(["git", "-C", str(temp_repo), "add", "-A"], check=True)
-    subprocess.run(["git", "-C", str(temp_repo), "commit", "-qm", "add check"], check=True)
+    subprocess.run(["git", "-C", str(temp_repo), "-c", "user.name=t", "-c", "user.email=t@e",
+                    "commit", "-qm", "add check"], check=True)
     base = subprocess.run(["git", "-C", str(temp_repo), "rev-parse", "HEAD"],
                           capture_output=True, text=True).stdout.strip()
 
@@ -82,7 +83,8 @@ def test_run_once_isolates_and_recovers_from_a_raising_worker(temp_repo, tmp_pat
     (temp_repo / "test_add.py").write_text(
         "from add import add\n\ndef test_add():\n    assert add(2, 3) == 5\n")
     subprocess.run(["git", "-C", str(temp_repo), "add", "-A"], check=True)
-    subprocess.run(["git", "-C", str(temp_repo), "commit", "-qm", "add check"], check=True)
+    subprocess.run(["git", "-C", str(temp_repo), "-c", "user.name=t", "-c", "user.email=t@e",
+                    "commit", "-qm", "add check"], check=True)
 
     c = cfg.load_config(str(write_config_yaml(tmp_path / "config.yaml", temp_repo)))
     _seed_task(c.queue_dir, tid="bad")
@@ -186,7 +188,8 @@ def test_idle_loop_promotes_then_processes_backlog_task(temp_repo, tmp_path, mon
     (temp_repo / "test_add.py").write_text(
         "from add import add\n\ndef test_add():\n    assert add(2, 3) == 5\n")
     subprocess.run(["git", "-C", str(temp_repo), "add", "-A"], check=True)
-    subprocess.run(["git", "-C", str(temp_repo), "commit", "-qm", "add check"], check=True)
+    subprocess.run(["git", "-C", str(temp_repo), "-c", "user.name=t", "-c", "user.email=t@e",
+                    "commit", "-qm", "add check"], check=True)
 
     c = cfg.load_config(str(write_config_yaml(tmp_path / "config.yaml", temp_repo)))
     monkeypatch.setattr(run_loop, "health_check", lambda config: True)

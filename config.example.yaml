@@ -17,7 +17,7 @@ gate:
   lint_cmd:      ""
   typecheck_cmd: ""
   # VERIFIED 2026-06-30 (this host). {worktree}/{home} substituted by literal replace.
-  sandbox: "bwrap --ro-bind / / --tmpfs {home} --tmpfs /tmp --ro-bind {home}/.local/lib {home}/.local/lib --ro-bind {worktree} {worktree} --dev /dev --proc /proc --unshare-all --die-with-parent --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTEST_ADDOPTS '-p no:cacheprovider' --chdir {worktree}"
+  sandbox: "bwrap --ro-bind / / --tmpfs {home} --tmpfs /tmp --ro-bind-try {home}/.local/lib {home}/.local/lib --ro-bind {worktree} {worktree} --dev /dev --proc /proc --unshare-all --die-with-parent --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTEST_ADDOPTS '-p no:cacheprovider' --chdir {worktree}"
   timeout: 300
 max_parallel: 1
 naming:                    # branding of the branches/commits the loop creates (all optional)
