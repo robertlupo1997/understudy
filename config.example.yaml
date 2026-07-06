@@ -20,3 +20,8 @@ gate:
   sandbox: "bwrap --ro-bind / / --tmpfs {home} --tmpfs /tmp --ro-bind {home}/.local/lib {home}/.local/lib --ro-bind {worktree} {worktree} --dev /dev --proc /proc --unshare-all --die-with-parent --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTEST_ADDOPTS '-p no:cacheprovider' --chdir {worktree}"
   timeout: 300
 max_parallel: 1
+naming:                    # branding of the branches/commits the loop creates (all optional)
+  branch_prefix: agent     # worktree branches are <branch_prefix>/<task-id>
+  commit_prefix: agent     # automated commit messages are "<commit_prefix>: <task-id>"
+  bot_name:  understudy-bot
+  bot_email: understudy-bot@localhost

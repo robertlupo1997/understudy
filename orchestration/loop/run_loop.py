@@ -44,7 +44,7 @@ def _record_error(config, task, exc):
 
 def process_task(task, config, worker_fn):
     base_sha = _git(config.target_repo, "rev-parse", "HEAD").strip()
-    branch = f"ornith/{task.id}"
+    branch = f"{config.branch_prefix}/{task.id}"
     wt = os.path.join(config.worktrees_dir, task.id)
     os.makedirs(config.worktrees_dir, exist_ok=True)
     t0 = time.time()
@@ -66,8 +66,8 @@ def process_task(task, config, worker_fn):
         _git(wt, "add", "-A")
         # Fixed bot identity so the automated commit never depends on ambient
         # ~/.gitconfig (robust under a stripped-env daemon / a sandboxed re-run).
-        _git(wt, "-c", "user.name=ornith-loop", "-c", "user.email=ornith-loop@localhost",
-             "commit", "--allow-empty", "-m", f"ornith: {task.id}")
+        _git(wt, "-c", f"user.name={config.bot_name}", "-c", f"user.email={config.bot_email}",
+             "commit", "--allow-empty", "-m", f"{config.commit_prefix}: {task.id}")
         diff = _git(config.target_repo, "diff", f"{base_sha}..{branch}")
 
         if wr.ok:

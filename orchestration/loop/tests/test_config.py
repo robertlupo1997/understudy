@@ -51,3 +51,20 @@ def test_backlog_dir_defaults_to_none(tmp_path):
     """))
     c = cfg.load_config(str(p))
     assert c.backlog_dir is None
+
+
+def test_naming_defaults_and_override(tmp_path):
+    from orchestration.loop import config as cfg
+    p = tmp_path / "c.yaml"
+    p.write_text(
+        "target_repo: /tmp/r\n"
+        "dirs: {queue: q, inbox: i, worktrees: w}\n"
+        "endpoint: http://x/v1\n"
+        "models: {simple: m, complex: m}\n"
+        "gate: {sandbox: 'true'}\n")
+    c = cfg.load_config(str(p))
+    assert (c.branch_prefix, c.commit_prefix) == ("agent", "agent")
+    assert c.bot_name == "understudy-bot" and c.bot_email == "understudy-bot@localhost"
+    p.write_text(p.read_text() + "naming: {branch_prefix: wip, bot_name: bot}\n")
+    c2 = cfg.load_config(str(p))
+    assert c2.branch_prefix == "wip" and c2.bot_name == "bot"

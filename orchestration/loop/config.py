@@ -32,6 +32,10 @@ class Config:
     max_parallel: int
     home: str
     backlog_dir: str | None = None    # optional; None → idle backlog promotion disabled
+    branch_prefix: str = "agent"
+    commit_prefix: str = "agent"
+    bot_name: str = "understudy-bot"
+    bot_email: str = "understudy-bot@localhost"
 
 
 def _require(d, key):
@@ -54,6 +58,8 @@ def load_config(path):
         rel = os.path.expanduser(rel)
         return rel if os.path.isabs(rel) else os.path.join(target_repo, rel)
 
+    naming = data.get("naming", {}) or {}
+
     return Config(
         target_repo=target_repo,
         queue_dir=repo_path(_require(dirs, "queue")),
@@ -73,4 +79,8 @@ def load_config(path):
         max_parallel=int(data.get("max_parallel", 1)),
         home=os.path.expanduser("~"),
         backlog_dir=repo_path(dirs["backlog"]) if "backlog" in dirs else None,
+        branch_prefix=naming.get("branch_prefix", "agent"),
+        commit_prefix=naming.get("commit_prefix", "agent"),
+        bot_name=naming.get("bot_name", "understudy-bot"),
+        bot_email=naming.get("bot_email", "understudy-bot@localhost"),
     )

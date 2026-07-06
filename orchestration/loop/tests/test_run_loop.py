@@ -68,7 +68,7 @@ def test_process_task_lands_gated_diff_and_never_touches_base(temp_repo, tmp_pat
     assert head_now == base
     branches = subprocess.run(["git", "-C", str(temp_repo), "branch"],
                               capture_output=True, text=True).stdout
-    assert "ornith/t1" in branches
+    assert "agent/t1" in branches
     assert not os.path.exists(os.path.join(c.worktrees_dir, "t1"))
 
     # queue task marked done
@@ -131,8 +131,8 @@ def test_hard_worker_exception_writes_error_record(temp_repo, tmp_path):
 def test_worktree_add_failure_writes_error_record_and_sweeps(temp_repo, tmp_path):
     c = cfg.load_config(str(write_config_yaml(tmp_path / "config.yaml", temp_repo)))
     _seed_task(c.queue_dir, tid="t1")
-    # Pre-create the branch so `git worktree add -b ornith/t1` fails.
-    subprocess.run(["git", "-C", str(temp_repo), "branch", "ornith/t1"], check=True)
+    # Pre-create the branch so `git worktree add -b agent/t1` fails.
+    subprocess.run(["git", "-C", str(temp_repo), "branch", "agent/t1"], check=True)
 
     def worker_fn(task, worktree, config):
         raise AssertionError("worker must not run when worktree add fails")

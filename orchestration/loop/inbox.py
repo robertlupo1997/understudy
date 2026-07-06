@@ -115,11 +115,11 @@ def approve(config, task_id):
     if cur in ("main", "master"):
         raise InboxError(f"refusing to merge onto {cur} (propose-only, spec §10)")
     _git(config.target_repo, "merge", "--no-ff", "-m",
-         f"approve ornith/{task_id}", f"ornith/{task_id}")
+         f"approve {config.branch_prefix}/{task_id}", f"{config.branch_prefix}/{task_id}")
 
 
 def reject(config, task_id):
-    _git(config.target_repo, "branch", "-D", f"ornith/{task_id}")
+    _git(config.target_repo, "branch", "-D", f"{config.branch_prefix}/{task_id}")
     rec = os.path.join(config.inbox_dir, task_id)
     if os.path.isdir(rec):
         arch = os.path.join(config.inbox_dir, "_rejected")

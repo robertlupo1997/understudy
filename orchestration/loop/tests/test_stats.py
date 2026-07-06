@@ -1,7 +1,7 @@
 """Claude-authored check for stats.count_by_status (dogfood task, 2026-07-01).
 
 check_author: claude — written before, and independently of, the worker's
-implementation. TDD: RED on main until the ornith/<id> proposal is merged.
+implementation. TDD: RED on main until the agent/<id> proposal is merged.
 """
 from orchestration.loop import stats
 
