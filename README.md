@@ -36,7 +36,16 @@ check, and reviews; the local worker implements one well-specified file for $0.
 6. Claude Code users: install `agents/local-worker.md` + `commands/delegate.md`, then `/delegate`.
 
 ## Measured (see docs/measurements.md)
-[Task 12's table: hardware, throughput, head-to-head pass rates, token-savings ratio]
+
+RTX 3070 / WSL2 / Ollama — run 2026-07-06.
+
+| | ornith9b | ornith35b |
+|-|----------|-----------|
+| Throughput (gen tok/s) | 53.1 | 13.6 |
+| Head-to-head pass rate | 3/5 (60 %) | 5/5 (100 %) |
+| Avg wall-time per task | 8 s | 118 s |
+
+Token-savings: orchestrator receives a 197-byte summary; generated file is 1 778 bytes — **9× more work than context paid for.**
 
 ## Safety
 The model ships no runtime sandbox. Workers run one-shot in a throwaway git worktree; the
