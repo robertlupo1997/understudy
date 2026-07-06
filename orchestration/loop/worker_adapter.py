@@ -1,4 +1,4 @@
-"""Route a queue Task to the hardened one-shot worker (orchestration/ornith_worker.py).
+"""Route a queue Task to the hardened one-shot worker (orchestration/worker.py).
 
 v1 handles single-file tasks only; multi-file work is decomposed by Claude at
 planning time (spec §7). Returns a bounded WorkerResult — raw model output stays
@@ -9,7 +9,7 @@ import sys
 from dataclasses import dataclass
 
 _WORKER = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "ornith_worker.py"))
+    os.path.join(os.path.dirname(__file__), "..", "worker.py"))
 
 
 class WorkerAdapterError(Exception):

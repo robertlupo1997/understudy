@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """9B vs 35B head-to-head on objectively-testable coding tasks.
 
-Delegates each task to each model via orchestration/ornith_worker.py, runs a strict
+Delegates each task to each model via orchestration/worker.py, runs a strict
 acceptance test on the generated code, and reports pass/fail + wall-time per (model, task).
 This is OUR data — the published 9B-vs-35B benchmark deltas were refuted as unverified
 (see docs/community-findings.md), so a local head-to-head is the trustworthy comparison.
@@ -13,7 +13,7 @@ Usage:  python3 scripts/head-to-head.py                 # ornith9b vs ornith35b
 import subprocess, sys, os, time, importlib.util, tempfile
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-WORKER = os.path.join(HERE, "orchestration", "ornith_worker.py")
+WORKER = os.path.join(HERE, "orchestration", "worker.py")
 BASE = os.environ.get("BASE", "http://localhost:11434/v1")
 
 # SECURITY NOTE: this file contains NO eval() call. The string "eval()" appears only inside a

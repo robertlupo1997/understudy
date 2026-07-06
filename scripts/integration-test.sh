@@ -26,7 +26,7 @@ echo; echo "[2/4] chat + tool-calling…"
 BASE="$BASE" MODEL="$MODEL" "$HERE/scripts/smoke-test.sh" | sed 's/^/  /' || rc=1
 
 echo; echo "[3/4] delegate a real task to the local worker…"
-python3 "$HERE/orchestration/ornith_worker.py" --base "$BASE" --model "$MODEL" \
+python3 "$HERE/orchestration/worker.py" --base "$BASE" --model "$MODEL" \
   --out "$TMP/stats.py" \
   --task "Write a function median(nums) that returns the median of a non-empty list of numbers (average of the two middle values for even length). Pure function, no prints." \
   | sed 's/^/  /' || rc=1

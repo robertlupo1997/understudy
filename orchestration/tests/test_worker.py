@@ -1,5 +1,5 @@
 import os
-import ornith_worker as w
+import worker as w
 import pytest
 
 
@@ -125,7 +125,7 @@ def _run_main(monkeypatch, argv, fake_call):
     """Run main() with argv and a stubbed call(); return (exit_code, stdout, stderr)."""
     import io
     monkeypatch.setattr(w, "call", fake_call)
-    monkeypatch.setattr(w.sys, "argv", ["ornith_worker.py", *argv])
+    monkeypatch.setattr(w.sys, "argv", ["worker.py", *argv])
     out, err = io.StringIO(), io.StringIO()
     monkeypatch.setattr(w.sys, "stdout", out)
     monkeypatch.setattr(w.sys, "stderr", err)
@@ -168,13 +168,13 @@ def test_main_out_outside_allowed_dir_exits_2(monkeypatch, tmp_path):
 
 
 def test_parse_response_non_dict_choice_raises_workererror():
-    import ornith_worker as w
+    import worker as w
     with pytest.raises(w.WorkerError):
         w.parse_response({"choices": [None]})
 
 
 def test_call_non_json_raises_workererror(monkeypatch):
-    import io, ornith_worker as w
+    import io, worker as w
 
     class FakeResp:
         def __enter__(self): return self
@@ -187,7 +187,7 @@ def test_call_non_json_raises_workererror(monkeypatch):
 
 
 def test_resolve_out_path_empty_allowed_dir_still_confines(tmp_path):
-    import ornith_worker as w
+    import worker as w
     # empty-string allowed_dir must NOT silently disable confinement
     with pytest.raises(w.WorkerError):
         w.resolve_out_path("/etc/passwd", "")

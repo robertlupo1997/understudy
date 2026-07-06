@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ornith_worker.py — a minimal LOCAL implementation worker driven by Ornith.
+worker.py — a minimal LOCAL implementation worker (reference model: Ornith-1.0).
 
 This is the "hands" in the Claude-orchestrator / Ornith-worker loop (see docs/architecture.md).
 Claude (the orchestrator) hands this script ONE scoped task + a target file. It asks the local
@@ -11,8 +11,8 @@ is the token-savings contract that preserves Claude's context.
 Zero dependencies (stdlib urllib). Talks to the OpenAI-compatible endpoint Ollama/llama.cpp expose.
 
 Usage:
-  python3 ornith_worker.py --task "<what to build>" --out demo/roman.py
-  python3 ornith_worker.py --task "..." --out path.py --base http://localhost:11434/v1 --model ornith9b
+  python3 worker.py --task "<what to build>" --out demo/roman.py
+  python3 worker.py --task "..." --out path.py --base http://localhost:11434/v1 --model ornith9b
 """
 import argparse, json, os, re, sys, tempfile, time, urllib.request, urllib.error
 
