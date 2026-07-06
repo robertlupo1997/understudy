@@ -1,0 +1,22 @@
+target_repo: /home/tlupo/experiments/Ornith     # first target = this repo (config-driven)
+dirs:
+  queue:      orchestration/loop/queue           # relative paths resolve against target_repo (config.py repo_path)
+  inbox:      orchestration/loop/inbox           # must stay in sync with the .gitignore entries
+  backlog:    orchestration/loop/backlog        # pre-authored Option-C specs; promoted when queue is idle
+  worktrees:  ~/.ornith-loop/worktrees
+endpoint: http://localhost:11434/v1
+models:
+  simple:  ornith9b
+  complex: ornith35b
+fallback:
+  enabled: false
+  model: haiku
+gate:
+  setup_cmd:     ""                              # runs in-sandbox (no net, read-only) → keep empty for this stdlib repo
+  test_cmd:      "python3 -m pytest -q -m 'not sandbox'"   # repo no-regression; excludes harness self-tests that spawn bwrap / need ambient git (see Task 4 + Task 6)
+  lint_cmd:      ""
+  typecheck_cmd: ""
+  # VERIFIED 2026-06-30 (this host). {worktree}/{home} substituted by literal replace.
+  sandbox: "bwrap --ro-bind / / --tmpfs {home} --tmpfs /tmp --ro-bind {home}/.local/lib {home}/.local/lib --ro-bind {worktree} {worktree} --dev /dev --proc /proc --unshare-all --die-with-parent --setenv PYTHONDONTWRITEBYTECODE 1 --setenv PYTEST_ADDOPTS '-p no:cacheprovider' --chdir {worktree}"
+  timeout: 300
+max_parallel: 1
