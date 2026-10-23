@@ -32,7 +32,8 @@ check, and reviews; the local worker implements one well-specified file for $0.
 3. `bash scripts/smoke-test.sh`         # must print tool-calling PASS
 4. `python3 orchestration/worker.py --task "..." --out path.py`
 5. Loop: `cp config.example.yaml config.yaml` (point `target_repo` at your repo),
-   `cp examples/add-function.md orchestration/loop/queue/`, then run the loop command above.
+   `mkdir -p orchestration/loop/queue && cp examples/add-function.md orchestration/loop/queue/`
+   (the queue folder is gitignored, so a fresh clone does not have it), then run the loop command above.
 6. Claude Code users: install `agents/local-worker.md` + `commands/delegate.md`, then `/delegate`.
 
 ## Measured (see docs/measurements.md)
@@ -45,7 +46,7 @@ RTX 3070 / WSL2 / Ollama — run 2026-07-06.
 | Head-to-head pass rate | 3/5 (60 %) | 5/5 (100 %) |
 | Avg wall-time per task | 8 s | 118 s |
 
-Token-savings: orchestrator receives a 197-byte summary; generated file is 1 778 bytes — **9× more work than context paid for.**
+Context cost, one sample: the orchestrator received a 197-byte summary for a 1 778-byte generated file, a **9× byte ratio on a single task**. This is a byte count, not a token measurement, and it has not been repeated across tasks.
 
 ## Safety
 The model ships no runtime sandbox. Workers run one-shot in a throwaway git worktree; the
